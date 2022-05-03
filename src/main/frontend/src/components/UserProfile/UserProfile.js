@@ -26,7 +26,7 @@ export default function UserProfiles() {
             <div key={uuid} className={'user-profile'}>
                 <h1>{username}</h1>
                 <p>{uuid}</p>
-                <DropZone/>
+                <DropZone userProfileUuid={uuid}/>
             </div>
         )
     })
