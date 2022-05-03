@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
+@CrossOrigin("*") //TODO: temporary, using for development purposes only
 @RequiredArgsConstructor
 @RequestMapping("api/v1/user-profile")
 public class UserProfileController {
