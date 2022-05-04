@@ -19,9 +19,9 @@ public class FileStore {
     private final AmazonS3 s3;
 
     public void save(String path,
-                     String fileName,
-                     Optional<Map<String, String>> optionaMetadata,
-                     InputStream inputStream) {
+                                String fileName,
+                                Optional<Map<String, String>> optionaMetadata,
+                                InputStream inputStream) {
 
         ObjectMetadata metadata = new ObjectMetadata();
         optionaMetadata.ifPresent(map -> {
