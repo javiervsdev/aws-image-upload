@@ -21,9 +21,10 @@ export default function UserProfiles() {
         fetchUserProfiles()
     }, [])
 
-    return userProfiles.map(({uuid, username}) => {
+    return userProfiles.map(({uuid, username, imageLink}) => {
         return (
             <div key={uuid} className={'user-profile'}>
+                {imageLink && <img src={`http://localhost:8080/api/v1/user-profile/${uuid}/image/download`} alt={username}/>}
                 <h1>{username}</h1>
                 <p>{uuid}</p>
                 <DropZone userProfileUuid={uuid}/>

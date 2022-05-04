@@ -30,16 +30,17 @@ public class UserProfileService {
 
         isImageFile(file);
 
-        UserProfile userProfile = userProfileRepository.findByUuid(userProfileId)
-                .orElseThrow(() -> new IllegalArgumentException(
-                        String.format("User profile with id %s does not exist", userProfileId)));
+        UserProfile userProfile = getUserProfile(userProfileId);
 
+        String filename = getImageName(userProfileId, file.getOriginalFilename());
         try {
             fileStore.save(
                     getImagePath(userProfileId),
-                    getImageName(userProfileId, file.getOriginalFilename()),
+                    filename,
                     getOptionalMetadata(file),
                     file.getInputStream());
+
+            userProfile.setImageLink(filename);
         } catch (IOException e) {
             throw new IllegalArgumentException(e);
         }
@@ -73,5 +74,18 @@ public class UserProfileService {
                 Map.of("Content-Type", file.getContentType(),
                         "Content-Length", String.valueOf(file.getSize()))
         );
+    }
+
+    public byte[] downloadUserProfileImage(UUID userProfileId) {
+        UserProfile userProfile = getUserProfile(userProfileId);
+        return userProfile.getImageLink()
+                .map(key -> fileStore.download(getImagePath(userProfileId), key))
+                .orElse(new byte[0]);
+    }
+
+    private UserProfile getUserProfile(UUID userProfileId) {
+        return userProfileRepository.findByUuid(userProfileId)
+                .orElseThrow(() -> new IllegalArgumentException(
+                        String.format("User profile with id %s does not exist", userProfileId)));
     }
 }

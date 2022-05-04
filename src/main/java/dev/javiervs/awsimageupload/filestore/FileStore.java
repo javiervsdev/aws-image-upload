@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 import java.util.Optional;
@@ -34,6 +35,16 @@ public class FileStore {
             s3.putObject(path, fileName, inputStream, metadata);
         } catch (AmazonServiceException e) {
             throw new IllegalStateException("Failed to store file to s3", e);
+        }
+    }
+
+    public byte[] download(String path, String key) {
+        try {
+            return s3.getObject(path, key)
+                    .getObjectContent()
+                    .readAllBytes();
+        } catch (AmazonServiceException | IOException e) {
+            throw new IllegalStateException("Failed to download file from s3", e);
         }
     }
 }

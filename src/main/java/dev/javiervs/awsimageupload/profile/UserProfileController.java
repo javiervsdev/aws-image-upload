@@ -21,13 +21,15 @@ public class UserProfileController {
         return userProfileService.getUserProfiles();
     }
 
-    @PostMapping(
-            path = "{userProfileId}/image/upload",
+    @PostMapping(path = "{userProfileId}/image/upload",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE
-    )
-    public void uploadUserProfileImage(@PathVariable UUID userProfileId,
-                                       @RequestParam MultipartFile file) {
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public void uploadUserProfileImage(@PathVariable UUID userProfileId, @RequestParam MultipartFile file) {
         userProfileService.uploadUserProfileImage(userProfileId, file);
+    }
+
+    @GetMapping(path = "{userProfileId}/image/download")
+    public byte[] downloadUserProfileImage(@PathVariable UUID userProfileId) {
+        return userProfileService.downloadUserProfileImage(userProfileId);
     }
 }

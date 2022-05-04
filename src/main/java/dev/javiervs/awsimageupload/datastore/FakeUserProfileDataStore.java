@@ -11,8 +11,8 @@ import java.util.UUID;
 @Repository
 public class FakeUserProfileDataStore implements UserProfileRepository {
     private static final List<UserProfile> USER_PROFILES = List.of(
-            new UserProfile(UUID.randomUUID(), "janet"),
-            new UserProfile(UUID.randomUUID(), "antonio")
+            new UserProfile(UUID.fromString("b58bfb83-a371-49cf-8aed-0cba1e257741"), "janet"),
+            new UserProfile(UUID.fromString("d3ecee26-aa04-4243-9c6a-b941f9adf36d"), "antonio")
     );
 
     @Override
